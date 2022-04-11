@@ -3,24 +3,48 @@
     ViewData["Title"] = "Product List";
 }
 
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Name</th>
-      <th scope="col">Price</th>
-      <th scope="col">Description</th>
-    </tr>
-  </thead>
-  <tbody> 
-      @foreach (var item in Model)
-      {
-        <tr>
-          <th >1</th>
-          <th >@item.Name</th>
-          <td >@item.Price</td>
-          <td>@item.Description</td>
-        </tr>
-      }
-      </tbody>
-</table>
+<br />
+<br />
+<div class="container p-4 border">
+    <div class="row pb-2">
+        <div class="col">
+            <h1 class="text-primary">Products List</h1>
+        </div>
+        <div class="col text-end pt-1">
+            <a asp-action="CreateProduct" class="btn btn-outline-primary"><i class="fas fa-plus"></i> Create New Product</a>
+        </div>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                var index = 0;
+            }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th>@(++index)</th>
+                    <th>@item.Name</th>
+                    <td>@((item.Price).ToString("c"))</td>
+                    <td>@item.Description</td>
+                    <td>
+                        <a asp-action="EditProduct" class="btn btn-success" asp-route-Id="@item.Id">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a asp-action="DeleteProduct" class="btn btn-danger" asp-route-Id="@item.Id">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

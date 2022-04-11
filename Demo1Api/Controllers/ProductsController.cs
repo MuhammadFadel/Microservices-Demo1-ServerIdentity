@@ -72,7 +72,7 @@ namespace Demo1Api.Controllers
         // POST api/<ValuesController>
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Post(ProductCreateDto productCreateDto)
+        public async Task<IActionResult> Post([FromBody] ProductCreateDto productCreateDto)
         {
             try
             {

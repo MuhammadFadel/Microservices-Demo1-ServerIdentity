@@ -53,13 +53,13 @@ namespace Demo1.Web.Services
             });
         }
 
-        public async Task<T> UpdateProductAsync<T>(ProductCreateDto productCreateDto, string token)
+        public async Task<T> UpdateProductAsync<T>(ProductDetailedDto productDetailedDto, string token)
         {
             return await this.SendAsync<T>(new ApiRequest()
             {
                 ApiType = SD.ApiType.PUT,
-                Data = productCreateDto,
-                ApiUrl = SD.ProductApiBase + "/api/products",
+                Data = productDetailedDto,
+                ApiUrl = SD.ProductApiBase + "/api/products/" + productDetailedDto.Id,
                 AccessToken = token
             });
         }
