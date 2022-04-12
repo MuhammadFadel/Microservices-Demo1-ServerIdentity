@@ -27,6 +27,20 @@ namespace Demo1.Web.Controllers
         }
 
         [Authorize]
+        public async Task<IActionResult> ProductDetails(Guid id)
+        {
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+            var response = await _productService.GetProductByIdAsync<ResponseDto>(id, accessToken);
+            if (response != null && response.IsSuccess)
+            {
+                var product = JsonConvert.DeserializeObject<ProductDetailedDto>(Convert.ToString(response.Result));
+                return View(product);
+            }
+            return NotFound();
+
+        }
+
+        [Authorize]
         public async Task<IActionResult> CreateProduct()
         {
             return View();

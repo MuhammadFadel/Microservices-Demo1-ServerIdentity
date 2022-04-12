@@ -25,8 +25,7 @@ namespace Demo1Api.Controllers
             _prod = productRepository;
             _response = new ResponseDto();
         }
-
-        [Authorize]
+        
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -46,8 +45,7 @@ namespace Demo1Api.Controllers
             }
             return Ok(_response);
         }
-
-        [Authorize]
+        
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {

@@ -1,7 +1,9 @@
 ﻿using Demo1.Web.Models;
+using Demo1.Web.Services.IServices;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Diagnostics;
 
 namespace Demo1.Web.Controllers
@@ -9,16 +11,23 @@ namespace Demo1.Web.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IProductService _productService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IProductService productService)
         {
             _logger = logger;
+            _productService = productService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
-        }
+            List<ProductDetailedDto> products = new();
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+            var response = await _productService.GetProductsAsync<ResponseDto>(accessToken);
+            if (response != null && response.IsSuccess)
+                products = JsonConvert.DeserializeObject<List<ProductDetailedDto>>(Convert.ToString(response.Result));
+            return View(products);            
+        }        
 
         public IActionResult Privacy()
         {
